@@ -1,0 +1,133 @@
+http://localhost:8080/spring-prm-rest/api/pictures
+
+{
+    "id": 11,
+    "nameDiscription": "djubre8",
+    "discription": "John Smith",
+    "author": "Lorem ipsum",
+    "imageUrl": "https://images.unsplas.com/photo",
+    "width": "774",
+    "height": 250.23,
+    "properties": {
+        "color_tag": "green",
+        "picture_tag": "walpaper",
+        "profile_tag": "nature"
+    }
+}
+
+Get pictures from database 
+http://localhost:8080/spring-prm-rest/api/pictures
+
+
+{
+        "id": 2,
+        "nameDiscription": "djubre7",
+        "discription": "Dominik Sobo",
+        "author": "Lorem ipsum",
+        "imageUrl": "https://images.unsplas.com/photo",
+        "width": 774.0,
+        "height": 250.23,
+        "properties": {
+            "color_tag": "green",
+            "picture_tag": "walpaper",
+            "profile_tag": "nature"
+        },
+}
+
+Get pictures from database by id 
+http://localhost:8080/spring-prm-rest/api/pictures/2
+
+POST mapping
+http://localhost:8080/spring-prm-rest/api/pictures
+
+{
+    "id": 1,
+    "nameDiscription": "Nature",
+    "discription": "Dominik Sobo",
+    "author": "Lorem ipsum 2",
+    "imageUrl": "https://images.unsplas.com/photo",
+    "width": "774",
+    "height": 250.23,
+    "properties": {
+        "color_tag": "green",
+        "picture_tag": "walpaper",
+        "profile_tag": "nature"
+    }
+}
+
+{
+    "id": 2,
+    "nameDiscription": "Car",
+    "discription": "John Smith",
+    "author": "Lorem ipsum",
+    "imageUrl": "https://images.unsplas.com/photo",
+    "width": "774",
+    "height": 250.23,
+    "properties": {
+        "color_tag": "red",
+        "picture_tag": "walpaper",
+        "profile_tag": "car"
+    }
+}
+
+GET mapping
+http://localhost:8080/spring-prm-rest/api/color_tag/green
+
+http://localhost:8080/spring-prm-rest/api/picture_tag/walpaper
+
+http://localhost:8080/spring-prm-rest/api/profile_tag/nature
+
+get mapping reverse
+
+http://localhost:8080/spring-prm-rest/api/notcolor_tag/red
+
+http://localhost:8080/spring-prm-rest/api/notpicture_tag/red
+
+http://localhost:8080/spring-prm-rest/api/notprofile_tag/red
+
+update
+PUT mapping 
+
+http://localhost:8080/spring-prm-rest/api/pictures
+
+{
+    "id": 16,
+    "nameDiscription": "Nature 2",
+    "discription": "Dominik Sobo",
+    "author": "Lorem ipsum 2",
+    "imageUrl": "https://images.unsplas.com/photo",
+    "width": "774",
+    "height": 250.23,
+    "properties": {
+        "color_tag": "green",
+        "picture_tag": "walpaper",
+        "profile_tag": "nature"
+    }
+}
+
+update traker_picture.picture set traker_picture.picture.name_discription = 'nature1' where id = 1;
+update traker_picture.picture set traker_picture.picture.name_discription = 'nature3' where id = 1;
+name_history.picture_id = picture.id
+
+picture_id = 
+select * from name_history nh where picture_id = 13;
+
+get by time 
+
+1	Nature	2022-04-07 17:14:09	1
+2	Nature	2022-04-07 17:14:19	1
+5	Nature	2022-04-07 17:16:03	1
+8	Nature 1	2022-04-07 17:16:09	1
+11	Nature 3	2022-04-07 17:16:30	1
+
+http://localhost:8080/spring-prm-rest/api/creationTime/2022-04-07 17:16:20/1
+
+last edit NameHistory [id=8, old_name=Nature 1, creationTime=2022-04-07 17:16:09.0, picture_id=1]
+
+{
+    "id": 8,
+    "old_name": "Nature 1",
+    "creationTime": 1649344569000,
+    "picture_id": 1
+}
+
