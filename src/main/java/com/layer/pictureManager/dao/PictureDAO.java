@@ -28,5 +28,5 @@ public interface PictureDAO {
 	public List<Picture> getPictureByNotPictureTag(String picture_tag, String stringTagName);
 
 	public NameHistory getPictureByTime(String time, int id);
-	
+
 }

@@ -6,7 +6,7 @@ import com.layer.pictureManager.entity.NameHistory;
 import com.layer.pictureManager.entity.Picture;
 
 public interface PictureService {
-	
+
 	public List<Picture> getPictures();
 
 	public void savePicture(Picture thePicture);
@@ -28,4 +28,5 @@ public interface PictureService {
 	public List<Picture> getPictureByNotPictureTag(String picture_tag, String stringTagName);
 
 	public NameHistory getPictureByTime(String time, int id);
+
 }

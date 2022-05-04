@@ -43,7 +43,36 @@ public class PictureDAOImpl implements PictureDAO {
 		// get current hibernate session
 		Session currentSession = sessionFactory.getCurrentSession();
 
-		currentSession.saveOrUpdate(thePicture);
+		int id = thePicture.getId();
+		String name_discription = thePicture.getNameDiscription();
+
+		Query theQuery = currentSession.createNativeQuery("select * from picture where id = :id", Picture.class);
+		theQuery.setParameter("id", id);
+
+		List<Picture> pictures = theQuery.getResultList();
+		if (!pictures.isEmpty()) {
+			String name_discriptionInDatabase = pictures.get(0).getNameDiscription();
+
+			if (!thePicture.getNameDiscription().equals(name_discriptionInDatabase)) {
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+				NameHistory nameHistory = new NameHistory();
+				nameHistory.setOld_name(name_discriptionInDatabase);
+				nameHistory.setCreationTime(timestamp);
+				nameHistory.setPicture_id(id);
+
+				Query sqlQuery = currentSession
+						.createSQLQuery("UPDATE picture SET name_discription = :discription WHERE id = :id");
+				sqlQuery.setParameter("id", id);
+				sqlQuery.setParameter("discription", name_discription);
+
+				sqlQuery.executeUpdate();
+				currentSession.save(nameHistory);
+				currentSession.merge(thePicture);
+				// currentSession.saveOrUpdate(thePicture);
+			}
+		} else {
+			currentSession.merge(thePicture);
+		}
 	}
 
 	@Override
@@ -111,13 +140,13 @@ public class PictureDAOImpl implements PictureDAO {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
 
-		Query<Picture> theQuery = currentSession.createQuery("from Picture", Picture.class);
+		profile_tag = "$." + profile_tag;
 
-		// filter
+		Query theQuery = currentSession.createNativeQuery("select * from picture where properties -> :tag=:name",
+				Picture.class);
+		theQuery.setParameter("tag", profile_tag);
+		theQuery.setParameter("name", stringTagName);
 		List<Picture> pictures = theQuery.getResultList();
-		List<Picture> picturesToDelete = new ArrayList<>(pictures);
-
-		extract(profile_tag, stringTagName, pictures, picturesToDelete, reverse);
 
 		return pictures;
 	}
@@ -128,13 +157,13 @@ public class PictureDAOImpl implements PictureDAO {
 		Session currentSession = sessionFactory.getCurrentSession();
 		reverse = false;
 
-		Query<Picture> theQuery = currentSession.createQuery("from Picture", Picture.class);
-		// filter
-		List<Picture> pictures = theQuery.getResultList();
-		List<Picture> picturesToDelete = new ArrayList<>(pictures);
+		profile_tag = "$." + profile_tag;
 
-		// filter
-		extract(profile_tag, stringTagName, pictures, picturesToDelete, reverse);
+		Query theQuery = currentSession.createNativeQuery("select * from picture where properties -> :tag=:name",
+				Picture.class);
+		theQuery.setParameter("tag", profile_tag);
+		theQuery.setParameter("name", stringTagName);
+		List<Picture> pictures = theQuery.getResultList();
 
 		return pictures;
 	}
@@ -143,16 +172,14 @@ public class PictureDAOImpl implements PictureDAO {
 	public List<Picture> getPictureByPictureTag(String picture_tag, String stringTagName) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
+		picture_tag = "$." + picture_tag;
 
-		Query<Picture> theQuery = currentSession.createQuery("from Picture", Picture.class);
+		Query theQuery = currentSession.createNativeQuery("select * from picture where properties -> :tag=:name",
+				Picture.class);
+		theQuery.setParameter("tag", picture_tag);
+		theQuery.setParameter("name", stringTagName);
 
-		// filter
 		List<Picture> pictures = theQuery.getResultList();
-		List<Picture> picturesToDelete = new ArrayList<>(pictures);
-
-		// filter
-		extract(picture_tag, stringTagName, pictures, picturesToDelete, reverse);
-
 		return pictures;
 	}
 
@@ -161,16 +188,14 @@ public class PictureDAOImpl implements PictureDAO {
 	public List<Picture> getPictureByNotPictureTag(String picture_tag, String stringTagName) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
-		reverse = false;
+		picture_tag = "$." + picture_tag;
 
-		Query<Picture> theQuery = currentSession.createQuery("from Picture", Picture.class);
+		Query theQuery = currentSession.createNativeQuery("select * from picture where properties -> :tag=:name",
+				Picture.class);
+		theQuery.setParameter("tag", picture_tag);
+		theQuery.setParameter("name", stringTagName);
 
-		// filter
 		List<Picture> pictures = theQuery.getResultList();
-		List<Picture> picturesToDelete = new ArrayList<>(pictures);
-
-		extract(picture_tag, stringTagName, pictures, picturesToDelete, reverse);
-
 		return pictures;
 	}
 

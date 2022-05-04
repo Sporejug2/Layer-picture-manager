@@ -71,6 +71,7 @@ public class PictureRestController {
 
 	@GetMapping("/picture_tag/{stringTagName}")
 	public List<Picture> getPictureByPictureTag(@PathVariable String stringTagName) {
+		System.out.println("stringTagName: " + stringTagName);
 		return pictureService.getPictureByPictureTag(picture_tag, stringTagName);
 	}
 
@@ -100,11 +101,22 @@ public class PictureRestController {
 	}
 
 	// add mapping for PUT / picture - update existing picture
+
 	@PutMapping("/pictures")
 	public Picture updateCustomer(@RequestBody Picture thePicture) {
 
 		pictureService.savePicture(thePicture);
 
+		return thePicture;
+
+	}
+
+	// add mapping for PUT / picture - update existing picture
+	@PutMapping("/pictures/{pictureId}")
+	public Picture updateCustomer(@RequestBody Picture thePicture, @PathVariable int pictureId) {
+		System.out.println("pictureId" + pictureId);
+		// pictureService.updatePicture(thePicture, pictureId);
+		// pictureService.savePicture2(thePicture, pictureId);
 		return thePicture;
 
 	}

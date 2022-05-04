@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -47,7 +46,8 @@ public class Picture {
 	@Convert(converter = StringMapConverter.class)
 	private Map<String, String> properties;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	// @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "picture_id")
 	private List<NameHistory> nameHistory;
 
